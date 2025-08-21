@@ -4,7 +4,9 @@ import {create} from "zustand";
 import {persist} from "zustand/middleware";
 
 type ChatStore = {
+  currentChatId: string | null;
   chats: IChat[];
+  setCurrentChat: (chat: string) => void; // set the current chat id
   createChat: (chat: IChat) => void;
   deleteChat: (id: string) => void;
   addMessage: (chatId: string, message: IMessage) => void;
@@ -13,7 +15,11 @@ type ChatStore = {
 export const useChatStore = create<ChatStore>()(
   persist(
     (set) => ({
+      currentChatId: null,
       chats: [],
+      setCurrentChat: (chat) => {
+        set({currentChatId: chat});
+      },
       createChat: (chat) => {
         set((state) => ({chats: [...state.chats, chat]}));
       },
@@ -34,6 +40,6 @@ export const useChatStore = create<ChatStore>()(
   )
 );
 
-export const getChatById = (id: string) => {
-  return useChatStore.getState().chats.find((chat) => chat.id === id) || null;
+export const getCurrentChat = () => {
+  return useChatStore.getState().chats.find((chat) => chat.id === useChatStore.getState().currentChatId) || null;
 };

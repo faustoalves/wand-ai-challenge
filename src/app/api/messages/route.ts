@@ -6,6 +6,8 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   const encoder = new TextEncoder();
+  console.log("request", request);
+  console.log("encoder", encoder);
   let currentMessageIndex = 0;
 
   const stream = new ReadableStream({
@@ -24,6 +26,7 @@ export async function GET(request: NextRequest) {
               origin: message.origin || (message.agentId ? "agent" : "user"),
             };
             const data = `data: ${JSON.stringify(messageToSend)}\n\n`;
+            console.log("data", data);
             controller.enqueue(encoder.encode(data));
           } catch (error) {
             console.error("Error sending message:", error);
@@ -46,6 +49,7 @@ export async function GET(request: NextRequest) {
         try {
           controller.close();
         } catch (error) {
+          console.error("Error sending message:", error);
           // Controller might already be closed
         }
       };
