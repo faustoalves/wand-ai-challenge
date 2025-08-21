@@ -2,6 +2,7 @@
 
 import AssistantsList from "@/components/Assistants/AssistantsList/AssistantsList";
 import AgentItem from "@/components/Chat/AgentItem/AgentItem";
+import ChatInput from "@/components/Chat/ChatInput";
 import SystemItem from "@/components/Chat/SystemItem/SystemItem";
 import UserItem from "@/components/Chat/UserItem/UserItem";
 import {useMessage} from "@/hooks/useMessage";
@@ -42,13 +43,13 @@ const ChatContainer = ({id}: {id: string}) => {
 
   return (
     <div className="flex flex-row gap-2 max-w-3xl h-full mx-auto min-h-screen">
-      <div className="flex flex-col gap-2 w-1/4">
+      <div className="hidden lg:flex flex-col gap-2 w-1/4">
         <AssistantsList />
       </div>
-      <div className="flex flex-col gap-2 w-3/4 h-full min-h-screen ">
+      <div className="flex flex-col gap-2 w-full lg:w-3/4 h-full min-h-screen ">
         ChatContainer - {id}
         <br />
-        <div className="flex flex-col gap-2 h-full overflow-y-auto overflow-x-hidden flex-grow">
+        <div className="flex flex-col gap-3 h-full overflow-y-auto overflow-x-hidden flex-grow max-h-[calc(100vh-12rem)]">
           {getCurrentChat()?.messages.map((message, index) =>
             message.origin === "user" ? (
               <UserItem key={`${index}-${message.message}`} {...message} />
@@ -59,9 +60,7 @@ const ChatContainer = ({id}: {id: string}) => {
             )
           )}
         </div>
-        <div className="flex flex-col gap-2">
-          <button onClick={() => handlerSendMessage("Hello")}>Send</button>
-        </div>
+        <ChatInput onSend={handlerSendMessage} />
       </div>
     </div>
   );

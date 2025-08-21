@@ -9,10 +9,11 @@ const SystemItem = (props: IMessage) => {
       transition={{duration: 0.3, ease: "easeInOut"}}
       className="relative "
     >
-      <div className="relative w-auto bg-white/10 rounded-lg rounded-tl-none shadow mx-8 p-3">
-        {JSON.stringify(props)}
+      <div className="relative w-auto bg-black/30 rounded-lg rounded-tl-none shadow mx-8 p-3 justify-end flex flex-col">
+        <p className="line-clamp-1 text-purple-400 font-bold text-xs text-left">Wand.ai</p>
+        <p className="line-clamp-1 text-white text-left">{props.message}</p>
       </div>
-      <div className="absolute h-6 w-6 top-0.5 left-1 rounded-full rounded-tr-none bg-blue-500"></div>
+      <div className="absolute h-6 w-6 top-0.5 left-1 rounded-full rounded-tr-none bg-pink-500"></div>
     </motion.div>
   );
 };
