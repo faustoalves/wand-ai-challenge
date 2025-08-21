@@ -47,7 +47,6 @@ export const useMessage = (options: UseMessagesOptions = {}) => {
       };
 
       eventSource.onmessage = (event) => {
-        console.log("event", event);
         try {
           const message = JSON.parse(event.data) as IMessage;
           setMessages((prev) => [...prev, message]);

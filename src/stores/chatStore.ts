@@ -28,9 +28,28 @@ export const useChatStore = create<ChatStore>()(
       },
       addMessage: (chatId, message) => {
         set((state) => ({
-          chats: state.chats.map((chat) =>
-            chat.id === chatId ? {...chat, messages: [...(chat.messages || []), message]} : chat
-          ),
+          chats: state.chats.map((chat) => {
+            if (chat.id === chatId) {
+              const messages = chat.messages || [];
+              const existingMessageIndex = messages.findIndex(
+                (m) => m.timeStamp === message.timeStamp && m.agentId === message.agentId && m.origin === "agent"
+              );
+
+              if (existingMessageIndex !== -1) {
+                // Update existing message status
+                const updatedMessages = [...messages];
+                updatedMessages[existingMessageIndex] = {
+                  ...updatedMessages[existingMessageIndex],
+                  ...message,
+                };
+                return {...chat, messages: updatedMessages};
+              } else {
+                // Add new message
+                return {...chat, messages: [...messages, message]};
+              }
+            }
+            return chat;
+          }),
         }));
       },
     }),

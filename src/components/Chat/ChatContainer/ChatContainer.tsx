@@ -1,19 +1,20 @@
 "use client";
 
+import AssistantsList from "@/components/Assistants/AssistantsList/AssistantsList";
+import AgentItem from "@/components/Chat/AgentItem/AgentItem";
+import SystemItem from "@/components/Chat/SystemItem/SystemItem";
+import UserItem from "@/components/Chat/UserItem/UserItem";
 import {useMessage} from "@/hooks/useMessage";
 import {IMessage} from "@/lib/messages-types";
 import {getCurrentChat, useChatStore} from "@/stores/chatStore";
-import {useRouter} from "next/navigation";
 import {useEffect} from "react";
 
 const ChatContainer = ({id}: {id: string}) => {
-  const {messages, disconnect, connect, isConnected} = useMessage();
-  const {createChat, addMessage, chats, deleteChat} = useChatStore();
-  const router = useRouter();
+  const {messages, disconnect, connect} = useMessage();
+  const {createChat, addMessage} = useChatStore();
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
-      console.log("lastMessage", lastMessage);
       addMessage(id, lastMessage);
       if (lastMessage.disconnect) {
         disconnect();
@@ -39,42 +40,28 @@ const ChatContainer = ({id}: {id: string}) => {
     connect();
   };
 
-  const handlerDeleteChat = (chatId: string) => {
-    deleteChat(chatId);
-    if (chatId === id) {
-      router.push("/assistants");
-    }
-  };
-
-  const handlerSetCurrentChat = (chatId: string) => {
-    router.push(`/assistants/${chatId}`);
-  };
-
   return (
-    <div className="flex flex-row gap-2 max-w-2xl">
+    <div className="flex flex-row gap-2 max-w-3xl h-full mx-auto min-h-screen">
       <div className="flex flex-col gap-2 w-1/4">
-        <div>
-          {chats.map((chat) => (
-            <p key={chat.id}>
-              <span onClick={() => handlerSetCurrentChat(chat.id)}>{chat.name}</span>
-              <span>{chat.messages.length}</span>
-              <span className="p-2" onClick={() => handlerDeleteChat(chat.id)}>
-                x
-              </span>
-            </p>
-          ))}
-        </div>
+        <AssistantsList />
       </div>
-      <div className="flex flex-col gap-2 w-3/4">
+      <div className="flex flex-col gap-2 w-3/4 h-full min-h-screen ">
         ChatContainer - {id}
         <br />
-        <div>
-          {getCurrentChat()?.messages.map((message, index) => (
-            <p key={`${index}-${message.message}`}>{message.message}</p>
-          ))}
+        <div className="flex flex-col gap-2 h-full overflow-y-auto overflow-x-hidden flex-grow">
+          {getCurrentChat()?.messages.map((message, index) =>
+            message.origin === "user" ? (
+              <UserItem key={`${index}-${message.message}`} {...message} />
+            ) : message.origin === "system" ? (
+              <SystemItem key={`${index}-${message.message}`} {...message} />
+            ) : (
+              <AgentItem key={`${index}-${message.message}`} {...message} />
+            )
+          )}
         </div>
-        <button onClick={() => handlerSendMessage("Hello")}>Send</button>
-        <span>{isConnected ? "Connected" : "Disconnected"}</span>
+        <div className="flex flex-col gap-2">
+          <button onClick={() => handlerSendMessage("Hello")}>Send</button>
+        </div>
       </div>
     </div>
   );

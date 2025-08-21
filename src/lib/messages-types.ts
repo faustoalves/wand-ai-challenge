@@ -5,4 +5,5 @@ export interface IMessage {
   message?: string; // message content
   delay: number; // delay in milliseconds to send message
   disconnect?: boolean; // whether the message is a disconnect message
+  timeStamp?: number; // time stamp of the message
 }

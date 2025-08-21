@@ -16,7 +16,11 @@ const Page = (props: PageProps) => {
     setCurrentChat(id);
   }, [id, setCurrentChat]);
 
-  return <ChatContainer id={id} />;
+  return (
+    <div className="h-full">
+      <ChatContainer id={id} />
+    </div>
+  );
 };
 
 export default Page;
