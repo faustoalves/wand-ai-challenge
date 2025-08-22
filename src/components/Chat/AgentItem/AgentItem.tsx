@@ -37,7 +37,7 @@ const AgentItem = (props: IMessage) => {
     props.status === "running"
       ? "bg-lime-500"
       : props.status === "completed"
-      ? "bg-purple-500"
+      ? "bg-pink-500"
       : props.status === "error"
       ? "bg-red-500"
       : props.status === "pending"
@@ -47,7 +47,7 @@ const AgentItem = (props: IMessage) => {
     props.status === "running"
       ? "border-lime-600"
       : props.status === "completed"
-      ? "border-purple-600"
+      ? "border-pink-600"
       : props.status === "error"
       ? "border-red-600"
       : props.status === "pending"
@@ -57,7 +57,7 @@ const AgentItem = (props: IMessage) => {
     props.status === "running"
       ? "text-lime-500"
       : props.status === "completed"
-      ? "text-purple-500"
+      ? "text-pink-500"
       : props.status === "error"
       ? "text-red-500"
       : props.status === "pending"
@@ -97,7 +97,9 @@ const AgentItem = (props: IMessage) => {
               transition={{duration: 0.2}}
               className={`flex flex-col gap-1 justify-center items-center pt-2 ${textColor}`}
             >
-              <p className="text-sm md:text-lg tracking-wide font-bold uppercase ">{agent?.description}</p>
+              <p className="text-[14px] py-1 lg:text-lg md:text-lg lg:tracking-wide font-bold uppercase ">
+                {agent?.description}
+              </p>
               <span
                 className={` text-black/80 text-xs uppercase font-bold rounded-lg rounded-br-none rounded-bl-none  px-4 py-px ${bgColor}`}
               >

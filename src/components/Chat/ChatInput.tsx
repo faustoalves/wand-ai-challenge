@@ -19,7 +19,7 @@ const ChatInput = ({onSend}: IChatInput) => {
         onChange={(e) => setMessage(e.target.value)}
       />
       <button
-        className="absolute flex flex-row items-center justify-center gap-2 bg-pink-500 right-[34px] bottom-[2px] w-22 font-bold h-8 text-white rounded-xs rounded-br-lg"
+        className="absolute flex flex-row items-center justify-center gap-2 bg-pink-500 right-[34px] bottom-[2px] w-22 font-bold h-8 text-white rounded-xs rounded-br-lg cursor-pointer"
         onClick={() => onSend(message)}
       >
         <Send className="w-4 h-4" />

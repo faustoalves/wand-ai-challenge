@@ -42,24 +42,33 @@ const ChatContainer = ({id}: {id: string}) => {
   };
 
   return (
-    <div className="flex flex-row gap-2 max-w-3xl h-full mx-auto min-h-screen">
-      <div className="hidden lg:flex flex-col gap-2 w-1/4">
-        <AssistantsList />
-      </div>
+    <div className="flex flex-row max-w-5xl h-full mx-auto min-h-screen divide-x divide-white/10 gap-8 pt-24 lg:pt-6">
+      <AssistantsList />
+
       <div className="flex flex-col gap-2 w-full lg:w-3/4 h-full min-h-screen ">
-        ChatContainer - {id}
-        <br />
-        <div className="flex flex-col gap-3 h-full overflow-y-auto overflow-x-hidden flex-grow max-h-[calc(100vh-12rem)]">
-          {getCurrentChat()?.messages.map((message, index) =>
-            message.origin === "user" ? (
-              <UserItem key={`${index}-${message.message}`} {...message} />
-            ) : message.origin === "system" ? (
-              <SystemItem key={`${index}-${message.message}`} {...message} />
-            ) : (
-              <AgentItem key={`${index}-${message.message}`} {...message} />
-            )
-          )}
-        </div>
+        {!getCurrentChat()?.messages.length ? (
+          <div className="flex flex-col gap-3 h-full overflow-y-auto overflow-x-hidden flex-grow max-h-[calc(100vh-14rem)] items-center justify-center">
+            <p className="text-center text-white font-bold text-2xl lg:text-3xl">
+              Hello,
+              <br /> I&apos;m your assistant.
+              <br /> How can I help you today?
+            </p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3 h-full overflow-y-auto overflow-x-hidden flex-grow max-h-[calc(100vh-12rem)]">
+            <h3 className="text-white font-bold text-2xl lg:text-3xl text-center">{getCurrentChat()?.name}</h3>
+
+            {getCurrentChat()?.messages.map((message, index) =>
+              message.origin === "user" ? (
+                <UserItem key={`${index}-${message.message}`} {...message} />
+              ) : message.origin === "system" ? (
+                <SystemItem key={`${index}-${message.message}`} {...message} />
+              ) : (
+                <AgentItem key={`${index}-${message.message}`} {...message} />
+              )
+            )}
+          </div>
+        )}
         <ChatInput onSend={handlerSendMessage} />
       </div>
     </div>
