@@ -3,6 +3,7 @@
 import AssistantsList from "@/components/Assistants/AssistantsList/AssistantsList";
 import AgentItem from "@/components/Chat/AgentItem/AgentItem";
 import ChatInput from "@/components/Chat/ChatInput";
+import ImageItem from "@/components/Chat/ImageItem/ImageItem";
 import SystemItem from "@/components/Chat/SystemItem/SystemItem";
 import UserItem from "@/components/Chat/UserItem/UserItem";
 import {useMessage} from "@/hooks/useMessage";
@@ -63,6 +64,8 @@ const ChatContainer = ({id}: {id: string}) => {
                 <UserItem key={`${index}-${message.message}`} {...message} />
               ) : message.origin === "system" ? (
                 <SystemItem key={`${index}-${message.message}`} {...message} />
+              ) : message.origin === "image" ? (
+                <ImageItem key={`${index}-${message.message}`} {...message} />
               ) : (
                 <AgentItem key={`${index}-${message.message}`} {...message} />
               )
